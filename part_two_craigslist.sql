@@ -43,6 +43,16 @@ CREATE TABLE PostCategories (
     PRIMARY KEY (post_id, category_id)
 );
 
+-- It was suggested that I add Indexes
+CREATE INDEX idx_posts_region ON Posts(region_id);
+CREATE INDEX idx_posts_user ON Posts(user_id);
+CREATE INDEX idx_postcategories_category ON PostCategories(category_id);
+
+
+-- It was suggested that I add Constraints
+ALTER TABLE Users ADD CONSTRAINT email_format CHECK (email LIKE '%@%.%');
+ALTER TABLE Posts ADD CONSTRAINT fk_post_region CHECK (region_id IS NOT NULL);
+
 
 INSERT INTO Regions (name)
 VALUES 
@@ -102,3 +112,22 @@ FROM Posts p
     JOIN PostCategories pc ON p.post_id = pc.post_id
     JOIN Categories c ON pc.category_id = c.category_id
 WHERE r.name = 'San Francisco' AND c.name = 'Housing';
+
+
+-- It was suggested that I add more queries:
+SELECT p.title, r.name AS region
+FROM Posts p
+    JOIN Regions r ON p.region_id = r.region_id
+WHERE r.name = 'Seattle';
+
+SELECT p.title, p.description, r.name AS region
+FROM Posts p
+    JOIN Users u ON p.user_id = u.user_id
+    JOIN Regions r ON p.region_id = r.region_id
+WHERE u.username = 'alice';
+
+SELECT p.title, STRING_AGG(c.name, ', ') AS categories
+FROM Posts p
+    JOIN PostCategories pc ON p.post_id = pc.post_id
+    JOIN Categories c ON pc.category_id = c.category_id
+GROUP BY p.title;
