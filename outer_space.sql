@@ -28,19 +28,23 @@ CREATE TABLE planets (
 );
 
 CREATE TABLE moons (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  planet_id INTEGER REFERENCES planets(id)
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    planet_id INTEGER REFERENCES planets(id)
 );
 
-INSERT INTO galaxies (name) VALUES
-('Milky Way');
+
+-- Galaxies
+INSERT INTO galaxies (name) 
+VALUES
+    ('Milky Way');
 
 -- Stars
-INSERT INTO stars (name, galaxy_id) VALUES
-('The Sun', 1),
-('Proxima Centauri', 1),
-('Gliese 876', 1);
+INSERT INTO stars (name, galaxy_id) 
+VALUES
+    ('The Sun', 1),
+    ('Proxima Centauri', 1),
+    ('Gliese 876', 1);
 
 -- Planets
 INSERT INTO planets (name, orbital_period_in_years, star_id) 
